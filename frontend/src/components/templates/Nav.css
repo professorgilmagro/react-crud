@@ -5,3 +5,15 @@ aside.menu-area {
         2px 0 10px 0 rgba(0, 0, 0, 0.12)
         2px 0 15px 0 rgba(0, 0, 0, 0.09)
 }
+
+@media(max-width: 768px) {
+    .menu {
+        display: flex;
+        justify-content: flex-start;
+        align-content: center;
+        margin: 0px;
+        width: 100%;
+        justify-content: space-around;
+    }
+
+}

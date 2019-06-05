@@ -4,6 +4,7 @@
     color: #FFF;
     font-weight: 300;
     padding: 0.5em;
+    cursor: pointer;
 }
 
 .menu a:hover {
@@ -12,4 +13,13 @@
 
 .menu a.active {
     color: #07a7e3;
+}
+
+@media(max-width: 768px) {
+    .menu a{
+        display: inline;
+        padding: 1em;
+        margin: 0;
+    }
+
 }

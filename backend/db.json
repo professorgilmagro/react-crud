@@ -1,14 +1,24 @@
 {
-    "users": [
-        {
-            "id": 1,
-            "name" : "Arthur Oliveira",
-            "email": "arthur.oliveira@gmail.com"
-        },
-        {
-            "id": 2,
-            "name" : "João de Deus",
-            "email": "joao.deus@gmail.com"
-        }
-    ]
+  "users": [
+    {
+      "id": 1,
+      "name": "Arthur Oliveira da Silva",
+      "email": "arthur.oliveira@gmail.com"
+    },
+    {
+      "name": "Fulano de Tal",
+      "email": "fulano.tal@gm.com.br",
+      "id": 4
+    },
+    {
+      "name": "João Poesia",
+      "email": "joao.poesia@gmail.com",
+      "id": 5
+    },
+    {
+      "name": "Gilmar Santana",
+      "email": "gsantana@outlook.com",
+      "id": 6
+    }
+  ]
 }
