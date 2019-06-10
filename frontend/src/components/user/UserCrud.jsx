@@ -12,7 +12,12 @@ const headerProps = {
 const baseUrl = 'http://localhost:3001/users'
 const initialState = {
     user: { name: '', email: '' },
-    list: []
+    list: [],
+    message: {
+        show: false,
+        text: '',
+        type: 'success'
+    }
 }
 
 export default class UserCrud extends Component {
@@ -33,16 +38,38 @@ export default class UserCrud extends Component {
         const user = this.state.user
         const method = user.id ? 'put' : 'post'
         const url = user.id ? `${baseUrl}/${user.id}` : baseUrl
+
+        if (!this.isValidData()) {
+            return;
+        }
+
         axios[method](url, user)
             .then(resp => {
                 const list = this.getUpdatedList(resp.data)
-                this.setState({ user: initialState.user, list })
+                const message = {text: 'Registro salvo com sucesso com o ID #' + resp.data.id, type: 'success', show: true}
+                this.setState({ user: initialState.user, list, message })
             })
+    }
+
+    isValidData() {
+        if (this.state.user.name.length === 0) {
+            const message = {text: "O campo 'Nome' é de preenchimento obrigatório", type: 'danger', show: true}
+            this.setState({message});
+            return false;
+        }
+
+        if (this.state.user.email.length === 0) {
+            const message = {text: "O campo 'Email' é de preenchimento obrigatório", type: 'danger', show: true}
+            this.setState({message});
+            return false;
+        }
+
+        return true;
     }
 
     getUpdatedList(user, add = true) {
         const list = this.state.list.filter(u => u.id !== user.id)
-        user && list.unshift(user)
+        add && list.unshift(user)
         return list
     }
 
@@ -60,6 +87,7 @@ export default class UserCrud extends Component {
                         label="Nome"
                         name="name"
                         id="name"
+                        required={true}
                         value={this.state.user.name}
                         onChange={e => this.updateField(e)}
                         placeholder="Digite o nome..." />
@@ -68,10 +96,14 @@ export default class UserCrud extends Component {
                         label="E-mail"
                         type="email"
                         name="email"
+                        required={true}
                         id="name"
                         value={this.state.user.email}
                         onChange={e => this.updateField(e)}
                         placeholder="Digite o e-mail..." />
+                </div>
+                <div className={`row ml-1 ${this.state.message.show ? '' : 'd-none'}`}>
+                    <div className={"alert alert-" + this.state.message.type}>{this.state.message.text}</div>
                 </div>
                 <hr />
                 <div className="row">

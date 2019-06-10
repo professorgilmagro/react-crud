@@ -8,6 +8,7 @@ export default props =>
                 type={props.type || 'text'}
                 name={props.name}
                 id={props.id}
+                required={props.required}
                 value={props.value}
                 onChange={props.onChange}
                 placeholder={props.placeholder}

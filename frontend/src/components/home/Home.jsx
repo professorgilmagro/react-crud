@@ -8,7 +8,7 @@ export default props =>
         <p className="mb-0">
             Sistema para exemplificar um sistema de cadastro desenvolvido em React:
             </p>
-            <ol className="mt-2">
+            <ul className="mt-2">
                 <li>JSON Server</li>
                 <li>React Router</li>
                 <li>Routes</li>
@@ -16,5 +16,5 @@ export default props =>
                 <li>Fragment</li>
                 <li>Bootstrap</li>
                 <li>Responsible template</li>
-            </ol>
+            </ul>
     </Main>
