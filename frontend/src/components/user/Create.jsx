@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import Main from '../templates/Main'
 import axios from 'axios'
 import TextField from '../../components/TextField'
+import {Link} from 'react-router-dom'
 
 const headerProps = {
     icon: 'users',
     title: 'Usuários',
-    subtitle: 'Cadastro de usuários: Incluir, Listar, Alterar e Excluir'
+    subtitle: 'Cadastro de usuários: Incluir'
 }
 
 const baseUrl = 'http://localhost:3001/users'
@@ -20,7 +21,7 @@ const initialState = {
     }
 }
 
-export default class UserCrud extends Component {
+export default class Create extends Component {
 
     state = { ...initialState }
 
@@ -36,18 +37,15 @@ export default class UserCrud extends Component {
 
     save() {
         const user = this.state.user
-        const method = user.id ? 'put' : 'post'
-        const url = user.id ? `${baseUrl}/${user.id}` : baseUrl
 
         if (!this.isValidData()) {
             return;
         }
 
-        axios[method](url, user)
+        axios.post(baseUrl, user)
             .then(resp => {
-                const list = this.getUpdatedList(resp.data)
                 const message = {text: 'Registro salvo com sucesso com o ID #' + resp.data.id, type: 'success', show: true}
-                this.setState({ user: initialState.user, list, message })
+                this.setState({ user: initialState.user, message })
             })
     }
 
@@ -65,12 +63,6 @@ export default class UserCrud extends Component {
         }
 
         return true;
-    }
-
-    getUpdatedList(user, add = true) {
-        const list = this.state.list.filter(u => u.id !== user.id)
-        add && list.unshift(user)
-        return list
     }
 
     updateField(event) {
@@ -111,9 +103,9 @@ export default class UserCrud extends Component {
                         <button
                             className="btn btn-primary"
                             onClick={e => this.save(e)}>Salvar</button>
-                        <button
+                        <Link
                             className="btn btn-secondary ml-2"
-                            onClick={e => this.clear(e)}>Cancelar</button>
+                            to="/users/list">Cancelar</Link>
                     </div>
                 </div>
             </div>
@@ -124,58 +116,10 @@ export default class UserCrud extends Component {
         this.setState({ user })
     }
 
-    remove(user) {
-        axios.delete(`${baseUrl}/${user.id}`).then(resp => {
-            const list = this.getUpdatedList(user, false)
-            this.setState({ list })
-        })
-    }
-
-    renderList() {
-        return (
-            <div className="table-responsive">
-                <table className="table mt-4 table-striped table-sm">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nome</th>
-                            <th>Email</th>
-                            <th>Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {this.renderListRows()}
-                    </tbody>
-                </table>
-            </div>
-        )
-    }
-
-    renderListRows() {
-        return this.state.list.map(user => {
-            return (
-                <tr key={user.id}>
-                    <td>{user.id}</td>
-                    <td>{user.name}</td>
-                    <td>{user.email}</td>
-                    <td>
-                        <button className="btn btn-warning" onClick={() => this.load(user)}>
-                            <i className="fa fa-pencil"></i>
-                        </button>
-                        <button className="btn btn-danger ml-2" onClick={() => this.remove(user)}>
-                            <i className="fa fa-trash"></i>
-                        </button>
-                    </td>
-                </tr>
-            )
-        })
-    }
-
     render() {
         return (
             <Main {...headerProps}>
                 {this.renderForm()}
-                {this.renderList()}
             </Main>
         )
     }
